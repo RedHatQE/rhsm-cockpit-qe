@@ -122,7 +122,19 @@ exports.config = {
     //
     // Make sure you have the wdio adapter package for the specific framework installed
     // before running any tests.
-    framework: 'mocha',
+    framework: 'jasmine',
+    jasmineNodeOpts: {
+        defaultTimeoutInterval: 1000000,
+        expectationResultHandler: function(passed, assertion) {
+            /**
+             * only take screenshot if assertion failed
+             */
+            if(passed) {
+                return;
+            }
+            browser.saveScreenshot('assertionError_' + assertion.error.message + '.png');
+        }
+    },
     //
     // Test reporter for stdout.
     // The only one supported by default is 'dot'
@@ -132,10 +144,10 @@ exports.config = {
     //
     // Options to be passed to Mocha.
     // See the full list at http://mochajs.org/
-    mochaOpts: {
-        ui: 'bdd',
-        timeout: 10000000
-    },
+    // mochaOpts: {
+    //     ui: 'bdd',
+    //     timeout: 10000000
+    // },
     //
     // =====
     // Hooks
@@ -167,6 +179,7 @@ exports.config = {
      * @param {Array.<String>} specs List of spec file paths that are to be run
      */
     // before: function (capabilities, specs) {
+    //     console.log('before hook raised');
     // },
     /**
      * Runs before a WebdriverIO command gets executed.
