@@ -1,4 +1,3 @@
-var assert = require('assert');
 var LoginPage = require('../../page_objects/login.page');
 var MainPage = require('../../page_objects/main.page');
 const  env = require('env2')('.env');

@@ -1,4 +1,3 @@
-var expect = require('chai').expect;
 const LoginPage = require('../../page_objects/login.page');
 const MainPage = require('../../page_objects/main.page');
 const SubscriptionsPage = require('../../page_objects/subscriptions.page');
