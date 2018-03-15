@@ -24,30 +24,36 @@ beforeAll(() => {
                      rhsm.connect();});
 });
 
-async function getRHSMContent(){
-  ws.send('ping');
+function RHSMSubscription(){
   return rhsm
     .map((x) => JSON.parse(x.data))
     .filter(x => x.event === "pong")
     .take(1)
-    //.map(x => {console.log(x); return x;})
+  //.map(x => {console.log(x); return x;})
     .map(x => { return {'time': x.time,
-                        'content':ini.decode(new Buffer(x.content,'base64').toString('utf8'))};})
-    .toPromise();
+                        'content':ini.decode(new Buffer(x.content,'base64').toString('utf8'))};});
+};
+
+async function getRHSMContent(){
+  ws.send('ping');
+  return RHSMSubscription().toPromise();
 };
 
 browser.addCommand('getRHSMContent', () => {
   return getRHSMContent();
 });
 
+//
+// proxy configuration for squid
+// http://pastebin.test.redhat.com/563586
+//
+
 describe('proxy dialog', function() {
   it("saves it's values into /etc/rhsm/rhsm.conf", function () {
     console.log('proxy dialog test');
     console.log((new Date()).toISOString());
     let contentBefore = browser.getRHSMContent();
-    // getRHSMContent().then((result) => {console.log('prirazeni');
-    //                                    console.log('result:',result);
-    //                                    contentBefore = result;});
+    console.log('content before',contentBefore);
     LoginPage.open()
       .wait()
       .login(process.env.COCKPIT_USER_NAME,
@@ -58,12 +64,16 @@ describe('proxy dialog', function() {
     UnregisteredStatusElement.wait()
       .registerButton.click();
     RegisterDialog.wait()
-      .setNoAuthProxy(process.env.COCKPIT_SUBSCRIPTION_PROXY_LOCATION)
+      .setAuthProxy(process.env.COCKPIT_SUBSCRIPTION_PROXY_LOCATION,
+                    process.env.COCKPIT_SUBSCRIPTION_PROXY_USER_NAME,
+                    process.env.COCKPIT_SUBSCRIPTION_PROXY_PASSWORD)
       .registerWithUser(process.env.COCKPIT_SUBSCRIPTION_USER_NAME,
                         process.env.COCKPIT_SUBSCRIPTION_PASSWORD,
                         process.env.COCKPIT_SUBSCRIPTION_ORG_ID);
     console.log((new Date()).toISOString());
     let contentBefore02 = browser.getRHSMContent();
+    console.log('content before 02',contentBefore02);
+    browser.debug();
     // InvalidStatusElement.wait();
         // browser.waitForText(InvalidStatusElement.statusLabel.selector,20000,'Status: Invalid');
     });

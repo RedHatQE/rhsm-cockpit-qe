@@ -22,7 +22,14 @@ var ProxyDialog = Object.create(Page, {
   setNoAuthProxy: { value: function (location){
     this.location.setValue(location);
     return this;
+  }},
+  setAuthProxy: { value: function (location,username,password){
+    this.location.setValue(location);
+    this.username.setValue(username);
+    this.password.setValue(password);
+    return this;
   }}
+
 });
 
 module.exports = ProxyDialog;

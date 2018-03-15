@@ -18,20 +18,28 @@ var RegisterDialog = Object.create(Page, {
     this.password.waitForVisible();
     return this;
   }},
+
   enableProxy: { value: function(){
     ProxyDialog.useProxy.click();
     return this;
   }},
+
   setNoAuthProxy: { value: function(location){
     this.enableProxy();
     ProxyDialog.setNoAuthProxy(location);
     return this;
   }},
+
+  setAuthProxy: { value: function(location,username,password){
+    this.enableProxy();
+    ProxyDialog.setAuthProxy(location,username,password);
+    return this;
+  }},
+
   registerWithUser: { value: function (username, password, orgid){
     this.username.setValue(username);
     this.password.setValue(password);
     this.org.setValue(orgid);
-    browser.debug();
     this.registerButton.click();
     return this;
   }}
