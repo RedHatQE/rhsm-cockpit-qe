@@ -1,25 +1,32 @@
 {
-  "name": "rhsm-cockpit-webdriver-qe",
+  "name": "rhsm-cockpit-qe",
   "version": "1.0.0",
-  "description": "",
+  "description": "A bunch of integration/functional tests for a plugin Subcriptions in Cockpit",
   "main": "index.js",
   "scripts": {
-    "test": "./node_modules/.bin/wdio --verbose wdio.conf.js"
+    "test": "./node_modules/.bin/wdio --verbose wdio.conf.js",
+    "e2e-setup": "./node_modules/.bin/selenium-standalone install",
+    "watch": "npm-watch"
+  },
+  "watch": {
+    "test": "{src,test,page_objects}/*.js"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/jstavel/rhsm-cockpit-webdriver-qe.git"
+    "url": "git+https://github.com/RedHatQE/rhsm-cockpit-qe.git"
   },
   "author": "Jan Stavel",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/jstavel/rhsm-cockpit-webdriver-qe/issues"
+    "url": "https://github.com/RedHatQE/rhsm-cockpit-qe/issues"
   },
-  "homepage": "https://github.com/jstavel/rhsm-cockpit-webdriver-qe#readme",
+  "homepage": "https://github.com/RedHatQE/rhsm-cockpit-qe#readme",
   "dependencies": {
     "env2": "^2.2.0",
     "ini": "^1.3.5",
+    "nodemon": "^1.17.2",
     "npm": "^5.6.0",
+    "npm-watch": "^0.3.0",
     "rxjs": "^5.5.6",
     "wdio-jasmine-framework": "^0.3.2",
     "wdio-selenium-standalone-service": "0.0.9",
