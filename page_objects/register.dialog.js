@@ -2,6 +2,9 @@ var Page = require('./Page');
 const ProxyDialog = require('./proxy.dialog');
 
 var RegisterDialog = Object.create(Page, {
+  registerURL: { get: function(){ return browser.element('button[data-id="subscription-register-url"]');}},
+  registerCustomURL: { get: function(){ return browser.element('span=Custom URL');}},
+  registerCustomURLInput: { get: function(){ return browser.element('#subscription-register-url-custom');}},
   username: { get: function() { return browser.element('#subscription-register-username');}},
   password: { get: function() { return browser.element('#subscription-register-password');}},
   org: { get: function() { return browser.element('#subscription-register-org');}},
@@ -19,23 +22,20 @@ var RegisterDialog = Object.create(Page, {
     return this;
   }},
 
-  enableProxy: { value: function(){
-    ProxyDialog.useProxy.click();
+  setCustomURL: { value: function(url){
+    this.registerURL.click();
+    this.registerCustomURL.waitForVisible();
+    this.registerCustomURL.click();
+    this.registerCustomURLInput.waitForVisible();
+    this.registerCustomURLInput.setValue(url);
     return this;
   }},
-
-  setNoAuthProxy: { value: function(location){
-    this.enableProxy();
-    ProxyDialog.setNoAuthProxy(location);
+  
+  atProxyDialog: { value: function(fn){
+    fn(ProxyDialog);
     return this;
   }},
-
-  setAuthProxy: { value: function(location,username,password){
-    this.enableProxy();
-    ProxyDialog.setAuthProxy(location,username,password);
-    return this;
-  }},
-
+  
   registerWithUser: { value: function (username, password, orgid){
     this.username.setValue(username);
     this.password.setValue(password);
