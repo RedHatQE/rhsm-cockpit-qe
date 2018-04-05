@@ -9,4 +9,10 @@ Page.prototype.open = function (path) {
     browser.url(path);
 };
 
+Page.prototype.debug = function() {
+  browser.debug();
+  return this;
+},
+
+
 module.exports = new Page();
