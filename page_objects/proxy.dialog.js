@@ -19,17 +19,23 @@ var ProxyDialog = Object.create(Page, {
     this.password.waitForVisible();
     return this;
   }},
+  enableProxy: { value: function(){
+    if(!this.useProxy.isSelected()){
+      console.log('clicked');
+      this.useProxy().click();
+    };
+    return this;
+  }},
   setNoAuthProxy: { value: function (location){
     this.location.setValue(location);
     return this;
   }},
-  setAuthProxy: { value: function (location,username,password){
+  setAuthProxy: { value: function (location, username, password){
     this.location.setValue(location);
     this.username.setValue(username);
     this.password.setValue(password);
     return this;
   }}
-
 });
 
 module.exports = ProxyDialog;
