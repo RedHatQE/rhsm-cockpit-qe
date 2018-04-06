@@ -39,12 +39,16 @@ npm run e2e-setup
 It will fire up a browser firefox and start clicking on a cockpit page.
 
 ## Design
+It is based on [WebdriverIO](http://webdriver.io/)
+
 ### Page objects
 Each page and page element has its own definition.
 The definition describes main parts of the element.
 It offers main functionality that the element provides (from user perspective).
 
 The definitions are stored in a directory `./page_objects`.
+
+[PageObject Pattern in WebdriverIO](http://webdriver.io/guide/testrunner/pageobjects.html)
 
 ### WebdriverIO with Wdio
 
@@ -68,6 +72,7 @@ See [ReactiveX Page](http://reactivex.io).
 ## Development workflow
 
 ### Debugging
+
 If you want to pause of a test execution,
 you can put `debug` statement in the place you want.
 
@@ -85,3 +90,5 @@ SubscriptionsPage.wait()
       // ...
 });
 ```
+
+[Debugging in WebSocketIO](http://webdriver.io/guide/testrunner/debugging.html)
