@@ -1,9 +1,6 @@
 const LoginPage = require('../../page_objects/login.page');
 const MainPage = require('../../page_objects/main.page');
 const SubscriptionsPage = require('../../page_objects/subscriptions.page');
-const InvalidStatusElement = require('../../page_objects/invalid-status.element');
-const UnregisteredStatusElement = require('../../page_objects/unregistered-status.element');
-const RegisterDialog = require('../../page_objects/register.dialog');
 
 const Rx = require('rxjs/Rx');
 const env = require('env2')('.env');
@@ -104,7 +101,7 @@ browser.addCommand('waitForRHSMStatus', async (fn) => {
   let response = RHSMStatusResponses
       .map((x) => JSON.parse(x.data))
       .map((x) => x.overallStatus)
-      .filter((status) => fn(status)) 
+      .filter((status) => fn(status))
       .take(1);
   const ticks = Rx.Observable.interval(1000);
   ticks.takeUntil(response)
@@ -115,34 +112,39 @@ browser.addCommand('waitForRHSMStatus', async (fn) => {
 
 describe('proxy dialog', function() {
   it("saves it's values into /etc/rhsm/rhsm.conf", function () {
-    let config01 = browser.getRHSMContent();
+    // starting point of this story
+    // a system is unregistered and proxy is not used
     if( browser.getRHSMStatus() !== "Unknown"){
       browser.executeSubscriptionManager("unregister");
     };
     browser.waitForRHSMStatus((status) => status === "Unknown");
+
+    // a story begins right now
     LoginPage.open().wait()
       .login(process.env.COCKPIT_USER_NAME,
              process.env.COCKPIT_USER_PASSWORD);
     MainPage.wait().subscriptions();
-    SubscriptionsPage.wait();
-    UnregisteredStatusElement.wait().registerButton.click();
-    let proxyLocation = process.env.COCKPIT_SUBSCRIPTION_PROXY_HOSTNAME
-        + ":"
-        + process.env.COCKPIT_SUBSCRIPTION_PROXY_PORT;
-    RegisterDialog.wait()
-      .setCustomURL(process.env.RHSM_TEST_CANDLEPIN_URL)
-      .atProxyDialog((dialog) => {
-        dialog.enableProxy()
-          .wait()
-          .setAuthProxy(proxyLocation,
-                        process.env.COCKPIT_SUBSCRIPTION_PROXY_USER,
-                        process.env.COCKPIT_SUBSCRIPTION_PROXY_PASSWORD);})
-      .registerWithUser(process.env.COCKPIT_SUBSCRIPTION_USER_NAME,
-                        process.env.COCKPIT_SUBSCRIPTION_PASSWORD,
-                        process.env.COCKPIT_SUBSCRIPTION_ORG_ID);
+    SubscriptionsPage.wait()
+      .atUnregisterStatus((el) => el.wait().registerButton.click())
+      .atRegisterDialog((dialog) => {
+        let proxyLocation = process.env.COCKPIT_SUBSCRIPTION_PROXY_HOSTNAME
+            + ":"
+            + process.env.COCKPIT_SUBSCRIPTION_PROXY_PORT;
+        dialog.wait()
+          .setCustomURL(process.env.RHSM_TEST_CANDLEPIN_URL)
+          .atProxyDialog((dialog) => {
+            dialog.enableProxy().wait()
+              .setAuthProxy(proxyLocation,
+                            process.env.COCKPIT_SUBSCRIPTION_PROXY_USER,
+                            process.env.COCKPIT_SUBSCRIPTION_PROXY_PASSWORD);})
+          .registerWithUser(process.env.COCKPIT_SUBSCRIPTION_USER_NAME,
+                            process.env.COCKPIT_SUBSCRIPTION_PASSWORD,
+                            process.env.COCKPIT_SUBSCRIPTION_ORG_ID);
+      });
+
     // wait for changes in entitlement to be propagated into a system environment
     browser.waitForRHSMStatus(status => status !== "Unknown");
-    
+
     // all verification fights go here
     let config02 = browser.getRHSMContent();
     let serverConfig = config02.content.server;
