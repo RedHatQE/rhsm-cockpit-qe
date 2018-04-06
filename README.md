@@ -10,7 +10,23 @@ There are tests for the whole entitlement game in this repo.
 The main focus is to test the cockpit plugin.
 The tests are webdriver based mostly.
 
+## Installation
 
+1) install firefox 
+
+2) install `RHSM Services` on a tested machine
+> it is necessary to install [RHSM Services](https://github.com/RedHatQE/rhsm-services) into a tested machine.
+
+3) install `nodejs`
+The tests use `nodejs`.
+
+4) install testing environment
+
+```shell
+cd src/rhsm-cockpit-qe
+npm install
+npm run e2e-setup
+```
 ## How To Run it
 
 ```shell
@@ -30,6 +46,8 @@ It offers main functionality that the element provides (from user perspective).
 
 The definitions are stored in a directory `./page_objects`.
 
+### WebdriverIO with Wdio
+
 ### RHSM-services
 
 [RHSM Services Repo](https://github.com/RedHatQE/rhsm-services)
@@ -41,6 +59,11 @@ The definitions are stored in a directory `./page_objects`.
   - rhsm/status - realtime stream of changes of an entitlement system status
   
 ### Reactive programming
+
+Tests uses `RxJS` library. It helps to solve `callback hell` at least. 
+Next reason for using it is an async nature of the library. It makes living in async world much easier.
+
+See [reactivex.io](ReactiveX Page).
 
 ## Development workflow
 
