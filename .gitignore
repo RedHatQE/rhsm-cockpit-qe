@@ -1,0 +1,6 @@
+.env
+.gitignore
+assertionError*
+errorShots/*
+node_modules/*
+package-lock.json
