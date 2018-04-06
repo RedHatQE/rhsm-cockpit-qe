@@ -63,7 +63,7 @@ The definitions are stored in a directory `./page_objects`.
 Tests uses `RxJS` library. It helps to solve `callback hell` at least. 
 Next reason for using it is an async nature of the library. It makes living in async world much easier.
 
-See [reactivex.io](ReactiveX Page).
+See [reactivex.io](http://reactivex.io).
 
 ## Development workflow
 
