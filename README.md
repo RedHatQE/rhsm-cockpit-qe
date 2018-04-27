@@ -50,6 +50,18 @@ The definitions are stored in a directory `./page_objects`.
 
 [PageObject Pattern in WebdriverIO](http://webdriver.io/guide/testrunner/pageobjects.html)
 
+Each method returns `this`. You can chain method calls.
+
+> There are methods aka 'atProxyDialog' in page objects. 
+> Those methods run a code in a context of another page element
+> It helps a code to be better structured
+
+```javascript
+SubscriptionPage.wait()
+  .atUnregisterStatus((element) => element.wait.registerButton.click())
+  .atRegisterDialog((dialog) => dialog.wait().enableProxy().wait());
+```
+
 ### WebdriverIO with Wdio
 
 ### RHSM-services
