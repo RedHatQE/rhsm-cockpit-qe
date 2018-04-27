@@ -74,6 +74,41 @@ SubscriptionPage.wait()
   - execution of a binary
   - rhsm/status - realtime stream of changes of an entitlement system status
   
+All services available for testing are defined in [a file](./test/services.js);
+
+### browser commands for tester
+
+There is a pile of custom sync methods in browser.
+
+- waitForRHSMStatus
+- executeSubscriptionManager
+- getRHSMConfig
+- waitForRHSMStatus
+
+All commands are defined in [A file](./test/commands.js).
+
+See some test file to see how they are used.
+
+### Test specifications
+
+Each test is defined in a directory `./test/spec`.
+They use jasmine style of test definition.
+
+```javascript
+describe("A suite is just a function", function() {
+  var a;
+
+  it("and so is a spec", function() {
+    a = true;
+
+    expect(a).toBe(true);
+  });
+});
+```
+
+The difference between webdriver tests and the origin jasmine tests is that there is a variable `browser`
+available in webdriver tests.
+
 ### Reactive programming
 
 Tests uses `RxJS` library. It helps to solve `callback hell` at least. 
