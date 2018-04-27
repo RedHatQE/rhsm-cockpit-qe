@@ -22,7 +22,7 @@ var ProxyDialog = Object.create(Page, {
   enableProxy: { value: function(){
     if(!this.useProxy.isSelected()){
       console.log('clicked');
-      this.useProxy().click();
+      this.useProxy.click();
     };
     return this;
   }},

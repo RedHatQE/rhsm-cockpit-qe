@@ -30,12 +30,12 @@ var RegisterDialog = Object.create(Page, {
     this.registerCustomURLInput.setValue(url);
     return this;
   }},
-  
+
   atProxyDialog: { value: function(fn){
     fn(ProxyDialog);
     return this;
   }},
-  
+
   registerWithUser: { value: function (username, password, orgid){
     this.username.setValue(username);
     this.password.setValue(password);

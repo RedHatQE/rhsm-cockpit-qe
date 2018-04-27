@@ -1,5 +1,4 @@
 var Page = require('./Page');
-const env = require('env2')('.env');
 
 var LoginPage = Object.create(Page, {
   username: { get: function() { return browser.element('#login-user-input');}},
