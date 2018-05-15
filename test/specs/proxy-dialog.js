@@ -18,7 +18,7 @@ describe('proxy dialog', function() {
       browser.executeSubscriptionManager("unregister");
     };
     browser.waitForRHSMStatus((status) => status === "Unknown");
-    browser.setNOProxyConfig();
+    browser.setNoProxyConfig();
 
     // a story begins right now
     LoginPage.open().wait()
@@ -42,7 +42,6 @@ describe('proxy dialog', function() {
                             process.env.COCKPIT_SUBSCRIPTION_PASSWORD,
                             process.env.COCKPIT_SUBSCRIPTION_ORG_ID);
       });
-
     // wait for changes in entitlement to be propagated into a system environment
     browser.waitForRHSMStatus(status => status !== "Unknown");
 
