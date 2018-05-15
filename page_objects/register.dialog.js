@@ -42,6 +42,13 @@ var RegisterDialog = Object.create(Page, {
     this.org.setValue(orgid);
     this.registerButton.click();
     return this;
+  }},
+
+  registerWithActivationKey: { value: function (keyid, orgid){
+    this.activationKey.setValue(keyid);
+    this.org.setValue(orgid);
+    this.registerButton.click();
+    return this;
   }}
 });
 
