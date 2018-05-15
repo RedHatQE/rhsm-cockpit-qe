@@ -41,10 +41,9 @@ async function prepareServices () {
   services.RHSMStatus.ws = new WebSocket(process.env.RHSM_SERVICES_URL + '/rhsm/status');
   await Rx.Observable.fromEvent(services.RHSMStatus.ws,'open')
     .take(1)
-    .map((x) => Rx.Observable.fromEvent(services.RHSMStatus.ws,'message').publish())
+    .map((x) => Rx.Observable.fromEvent(services.RHSMStatus.ws,'message').share())
     .forEach((x) => { console.log('rhsm status service has been connected');
-                      services.RHSMStatus.responses = x;
-                      services.RHSMStatus.responses.connect(); });
+                      services.RHSMStatus.responses = x;});
   return services;
 }
 module.exports = prepareServices;
